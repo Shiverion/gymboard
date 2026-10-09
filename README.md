@@ -15,6 +15,25 @@
 
 ---
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center" width="25%"><img src="assets/screens/body-map.webp" alt="Interactive anatomy map with the chest selected" /><br /><sub><b>Pick a muscle</b></sub></td>
+    <td align="center" width="25%"><img src="assets/screens/technique.webp" alt="Dumbbell curl technique guide" /><br /><sub><b>Learn the lift</b></sub></td>
+    <td align="center" width="25%"><img src="assets/screens/workout.webp" alt="Live workout logger with rest timer" /><br /><sub><b>Log the work</b></sub></td>
+    <td align="center" width="25%"><img src="assets/screens/progress.webp" alt="Weekly training volume and muscle workload" /><br /><sub><b>See the progress</b></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/screens/heat-map.webp" alt="Body map showing muscles trained in the last 7 days" /><br /><sub><b>What you've trained this week</b></sub></td>
+    <td align="center"><img src="assets/screens/body-stats.webp" alt="Body composition: BMI, body fat, lean mass, FFMI" /><br /><sub><b>Body composition</b></sub></td>
+    <td align="center"><img src="assets/screens/calendar.webp" alt="Workout calendar by push, pull and legs" /><br /><sub><b>Training calendar</b></sub></td>
+    <td></td>
+  </tr>
+</table>
+
+<sub>Screenshots use sample data.</sub>
+
 ## What it does
 
 Gymboard follows one flow: **Body → Muscle → Exercise → Technique → Workout → Progress.**
