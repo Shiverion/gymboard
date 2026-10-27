@@ -59,14 +59,33 @@ The source code is private; this is a high-level view of how Gymboard is built.
 
 ### Architecture
 
-```text
- Phone (installable web app)
-   UI ─► local data layer ─► on-device database (IndexedDB)  ◄─ service worker (offline shell)
-                    │
-                    │  background sync queue (retries when back online)
-                    ▼
-   Google sign-in ─► cloud database, one private space per user (owner-only access rules)
+```mermaid
+flowchart TD
+  subgraph phone["Phone (installable web app)"]
+    UI["UI"]
+    DL["Local data layer"]
+    IDB[("On-device database<br/>IndexedDB")]
+    SW["Service worker<br/>offline shell"]
+    Q["Background sync queue<br/>retries when back online"]
+  end
+  subgraph cloud["Cloud"]
+    AUTH(["Google sign-in"])
+    CDB[("Cloud database<br/>one private space per user<br/>owner-only access rules")]
+  end
+  UI --> DL --> IDB
+  SW -.-> UI
+  DL --> Q
+  Q -.->|"sync when online"| CDB
+  AUTH --> CDB
+
+  classDef store fill:#e8f1fb,stroke:#3b82c4,color:#0b2540
+  classDef ext fill:#f3effa,stroke:#7c5cbf,color:#24123f
+  classDef guard fill:#fdf1e6,stroke:#c77a2a,color:#3d2206
+  class IDB,CDB store
+  class AUTH guard
 ```
+
+Every write lands in the on-device database first; the queue replays it to the cloud when the phone is online.
 
 ### Key Decisions
 
