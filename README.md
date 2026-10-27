@@ -46,6 +46,42 @@ Gymboard follows one flow: **Body → Muscle → Exercise → Technique → Work
 - **Progress & history.** Weekly volume, muscle workload, per-lift strength charts and a workout calendar.
 - **Body tracking.** Bodyweight trend plus 12 tape measurements. From your profile it works out BMI, estimated body fat (US Navy method), lean mass, FFMI and frame size. Progress photos stay on your device.
 
+## System Design
+
+The source code is private; this is a high-level view of how Gymboard is built.
+
+### Requirements
+
+- **Offline-first**: logging a set must never depend on the gym's network.
+- **Cross-device**: sign in on another device and the history is there.
+- **Private by default**: only the account owner can read their data; progress photos stay on the device.
+- **Installable**: works like a native app without an app store.
+
+### Architecture
+
+```text
+ Phone (installable web app)
+   UI ─► local data layer ─► on-device database (IndexedDB)  ◄─ service worker (offline shell)
+                    │
+                    │  background sync queue (retries when back online)
+                    ▼
+   Google sign-in ─► cloud database, one private space per user (owner-only access rules)
+```
+
+### Key Decisions
+
+| Decision | Why | Trade-off |
+| --- | --- | --- |
+| Save locally first, sync later | Instant logging and full offline use | Two copies of the data must be reconciled |
+| Newest change wins when syncing | Simple, predictable merges | Simultaneous edits on two devices keep only the newer one |
+| No custom backend | Near-zero running cost, nothing to operate | Access control relies entirely on database rules |
+| Exercise library bundled with the app | Technique guides work offline | New exercises ship with app updates |
+
+### Next Steps as It Grows
+
+- Faster incremental sync for long training histories.
+- Optional encrypted backup for progress photos.
+
 ## Use it on your phone
 
 Gymboard is a web app you can install like a regular app — nothing to download from a store.
